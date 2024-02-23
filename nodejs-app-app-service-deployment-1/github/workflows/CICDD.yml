@@ -1,0 +1,25 @@
+name: Deploy to Azure App service mgmt
+
+on:
+    push: 
+        branches: 
+            - app-service-deployment
+
+jobs: 
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout source
+              uses: actions/checkout@v3
+            - name: setup Node.js version
+              uses: actions/setup-node@v4
+              with:
+                node-version: '18.x'
+            - name: Install dependencies
+              run: npm install
+            - name: Deploy to azure-app-service
+              uses: azure/webapps-deploy@v2
+              with: 
+                app-name: integrationnijasorg
+                publish-profile: ${{ secrets.AZURE_WEBAPP_DEPLOY }}
+                package: .1
